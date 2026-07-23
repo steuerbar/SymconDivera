@@ -1,0 +1,12 @@
+# Lokale Zugangsdaten und Entwicklungsdateien
+.env
+.env.*
+!.env.example
+credentials.*
+*.token
+
+# Editor- und Betriebssystemdateien
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
