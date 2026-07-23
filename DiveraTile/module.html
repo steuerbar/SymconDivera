@@ -17,12 +17,13 @@
         html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; color: CanvasText; }
         body { padding: 8px; }
         .card { height: 100%; min-height: 250px; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; }
+        .symcon-title-space { height: 28px; min-height: 28px; pointer-events: none; }
         header { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 24px; }
         .live { color: color-mix(in srgb, CanvasText 60%, transparent); font-size: .62rem; }
         .dot { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--ok); }
         .badge { margin-right: 34px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 9px; font-size: .6rem; font-weight: 800; }
         .active .badge { border-color: var(--alarm); color: var(--alarm); }
-        .content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; height: calc(100% - 30px); margin-top: 6px; }
+        .content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; height: calc(100% - 58px); margin-top: 6px; }
         .map { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--accent) 8%, Canvas); }
         .map img { width: 100%; height: 100%; object-fit: cover; }
         .standby { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--alarm) 12%, transparent), transparent 54%); }
@@ -47,6 +48,7 @@
 </head>
 <body>
 <section class="card" id="card">
+    <div class="symcon-title-space" aria-hidden="true"></div>
     <header>
         <span class="live"><i class="dot"></i><span id="updated">Live</span></span>
         <span class="badge" id="badge">BEREIT</span>
