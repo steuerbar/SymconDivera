@@ -17,18 +17,21 @@
         html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; color: CanvasText; }
         body { padding: 8px; }
         .card { height: 100%; min-height: 250px; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; }
-        header { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 30px; }
-        h1 { margin: 0; font-size: 1.02rem; color: color-mix(in srgb, var(--accent) 72%, CanvasText); }
+        header { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 24px; }
         .live { color: color-mix(in srgb, CanvasText 60%, transparent); font-size: .62rem; }
         .dot { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--ok); }
-        .badge { padding: 5px 9px; border: 1px solid var(--line); border-radius: 9px; font-size: .6rem; font-weight: 800; }
+        .badge { margin-right: 34px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 9px; font-size: .6rem; font-weight: 800; }
         .active .badge { border-color: var(--alarm); color: var(--alarm); }
-        .content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; height: calc(100% - 36px); margin-top: 6px; }
+        .content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; height: calc(100% - 30px); margin-top: 6px; }
         .map { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--accent) 8%, Canvas); }
         .map img { width: 100%; height: 100%; object-fit: cover; }
-        .standby { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
-        .radar { width: 116px; height: 116px; border: 1px solid color-mix(in srgb, var(--alarm) 55%, transparent); border-radius: 50%; background: repeating-radial-gradient(circle, color-mix(in srgb, var(--alarm) 22%, transparent) 0 1px, transparent 2px 24px); }
-        .standby span { position: absolute; bottom: 10px; }
+        .standby { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--alarm) 12%, transparent), transparent 54%); }
+        .fire-engine { width: min(78%, 220px); height: auto; overflow: visible; filter: drop-shadow(0 8px 10px color-mix(in srgb, CanvasText 20%, transparent)); }
+        .beacon { transform-origin: center; animation: beacon 1.35s ease-in-out infinite; }
+        .beacon-glow { transform-origin: center; animation: glow 1.35s ease-in-out infinite; }
+        .standby span { position: absolute; bottom: 10px; padding: 5px 9px; border: 1px solid color-mix(in srgb, var(--alarm) 40%, transparent); border-radius: 8px; background: color-mix(in srgb, Canvas 88%, transparent); color: color-mix(in srgb, var(--alarm) 78%, CanvasText); }
+        @keyframes beacon { 0%, 44%, 100% { opacity: .38; } 50%, 82% { opacity: 1; } }
+        @keyframes glow { 0%, 44%, 100% { opacity: 0; transform: scale(.7); } 50%, 82% { opacity: .5; transform: scale(1.12); } }
         .details { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
         .field { min-height: 33px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
         .field small { display: block; opacity: .58; font-size: .52rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
@@ -45,13 +48,36 @@
 <body>
 <section class="card" id="card">
     <header>
-        <div><h1>Feuerwehr Einsatz</h1><span class="live"><i class="dot"></i><span id="updated">Live</span></span></div>
+        <span class="live"><i class="dot"></i><span id="updated">Live</span></span>
         <span class="badge" id="badge">BEREIT</span>
     </header>
     <div class="content">
         <div class="map">
             <img id="mapImage" alt="Karte des Einsatzortes" hidden>
-            <div class="standby" id="standby"><div class="radar"></div><span>KEIN AKTIVER EINSATZ</span></div>
+            <div class="standby" id="standby">
+                <svg class="fire-engine" viewBox="0 0 300 180" role="img" aria-label="Einsatzbereites Feuerwehrfahrzeug">
+                    <ellipse class="beacon-glow" cx="150" cy="33" rx="66" ry="25" fill="#1d9bf0" opacity="0"/>
+                    <path d="M117 35h66l14 39H103z" fill="#c92f3f"/>
+                    <rect class="beacon" x="136" y="21" width="28" height="20" rx="8" fill="#159ec8"/>
+                    <rect x="34" y="72" width="232" height="70" rx="12" fill="#d94151"/>
+                    <path d="M34 87h56l31-36h62l25 36h58v55H34z" fill="#e34b5b"/>
+                    <path d="M104 83l23-27h49l18 27z" fill="#dff6ff"/>
+                    <path d="M108 83l20-23h18v23zm43-23h23l16 23h-39z" fill="#9edbf0"/>
+                    <rect x="211" y="91" width="43" height="12" rx="3" fill="#fff2a8"/>
+                    <rect x="49" y="92" width="36" height="9" rx="3" fill="#fff2a8"/>
+                    <path d="M59 72h26m-13-13v26" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+                    <rect x="38" y="113" width="228" height="10" fill="#f4d34e"/>
+                    <rect x="126" y="93" width="64" height="39" rx="4" fill="#bb2c3e"/>
+                    <path d="M135 101h46M135 111h46M135 121h46" stroke="#f2a8af" stroke-width="4"/>
+                    <circle cx="87" cy="142" r="25" fill="#26343a"/>
+                    <circle cx="87" cy="142" r="11" fill="#9bacb3"/>
+                    <circle cx="221" cy="142" r="25" fill="#26343a"/>
+                    <circle cx="221" cy="142" r="11" fill="#9bacb3"/>
+                    <rect x="24" y="128" width="19" height="9" rx="3" fill="#455a64"/>
+                    <rect x="261" y="128" width="19" height="9" rx="3" fill="#455a64"/>
+                </svg>
+                <span>EINSATZBEREIT</span>
+            </div>
         </div>
         <div class="details">
             <div class="field headline"><small id="number">EINSATZ</small><span id="title">Bereit</span></div>
