@@ -1,0 +1,49 @@
+{
+  "elements": [
+    {
+      "type": "ValidationTextBox",
+      "name": "AccessKey",
+      "caption": "DIVERA Accesskey"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "UpdateInterval",
+      "caption": "Abrufintervall in Sekunden",
+      "minimum": 15,
+      "maximum": 3600
+    },
+    {
+      "type": "CheckBox",
+      "name": "EnableMap",
+      "caption": "Einsatzkarte erzeugen"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Label",
+      "caption": "Die Anbindung arbeitet ausschließlich lesend. Es werden keine Alarmierungen oder Rückmeldungen an DIVERA gesendet."
+    },
+    {
+      "type": "Button",
+      "caption": "Daten jetzt abrufen",
+      "onClick": "DVR_UpdateData($id);"
+    }
+  ],
+  "status": [
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "Aktiv"
+    },
+    {
+      "code": 104,
+      "icon": "inactive",
+      "caption": "Accesskey fehlt"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Abruffehler"
+    }
+  ]
+}
