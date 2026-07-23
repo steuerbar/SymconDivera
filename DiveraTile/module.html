@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        :root {
+            color-scheme: light dark;
+            --accent: #159ec8;
+            --alarm: #dc4d5e;
+            --ok: #20a36b;
+            --line: color-mix(in srgb, currentColor 18%, transparent);
+            --panel: color-mix(in srgb, Canvas 91%, transparent);
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; color: CanvasText; }
+        body { padding: 8px; }
+        .card { height: 100%; min-height: 250px; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; }
+        header { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 30px; }
+        h1 { margin: 0; font-size: 1.02rem; color: color-mix(in srgb, var(--accent) 72%, CanvasText); }
+        .live { color: color-mix(in srgb, CanvasText 60%, transparent); font-size: .62rem; }
+        .dot { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--ok); }
+        .badge { padding: 5px 9px; border: 1px solid var(--line); border-radius: 9px; font-size: .6rem; font-weight: 800; }
+        .active .badge { border-color: var(--alarm); color: var(--alarm); }
+        .content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; height: calc(100% - 36px); margin-top: 6px; }
+        .map { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--accent) 8%, Canvas); }
+        .map img { width: 100%; height: 100%; object-fit: cover; }
+        .standby { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
+        .radar { width: 116px; height: 116px; border: 1px solid color-mix(in srgb, var(--alarm) 55%, transparent); border-radius: 50%; background: repeating-radial-gradient(circle, color-mix(in srgb, var(--alarm) 22%, transparent) 0 1px, transparent 2px 24px); }
+        .standby span { position: absolute; bottom: 10px; }
+        .details { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+        .field { min-height: 33px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+        .field small { display: block; opacity: .58; font-size: .52rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+        .field span { display: block; margin-top: 2px; font-size: .68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .headline { min-height: 48px; }
+        .headline span { font-size: .9rem; font-weight: 750; }
+        .message { flex: 1; }
+        .message span { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+        .offline { position: absolute; inset: auto 18px 18px; padding: 7px; border-radius: 8px; background: color-mix(in srgb, var(--alarm) 20%, Canvas); color: var(--alarm); font-size: .65rem; }
+        [hidden] { display: none !important; }
+        @media (max-width: 430px) { .content { grid-template-columns: 1fr 1fr; } .coords { display: none; } }
+    </style>
+</head>
+<body>
+<section class="card" id="card">
+    <header>
+        <div><h1>Feuerwehr Einsatz</h1><span class="live"><i class="dot"></i><span id="updated">Live</span></span></div>
+        <span class="badge" id="badge">BEREIT</span>
+    </header>
+    <div class="content">
+        <div class="map">
+            <img id="mapImage" alt="Karte des Einsatzortes" hidden>
+            <div class="standby" id="standby"><div class="radar"></div><span>KEIN AKTIVER EINSATZ</span></div>
+        </div>
+        <div class="details">
+            <div class="field headline"><small id="number">EINSATZ</small><span id="title">Bereit</span></div>
+            <div class="field"><small>Alarmierung</small><span id="alarmTime">–</span></div>
+            <div class="field"><small>Adresse</small><span id="address">–</span></div>
+            <div class="field message"><small>Meldung</small><span id="message">–</span></div>
+            <div class="field coords"><small>Koordinate</small><span id="coords">–</span></div>
+        </div>
+    </div>
+    <div class="offline" id="offline" hidden></div>
+</section>
+<script>
+    const $ = id => document.getElementById(id);
+    function render(s) {
+        $('card').classList.toggle('active', !!s.active);
+        $('badge').textContent = s.active ? (s.priority ? 'EINSATZ · PRIORITÄT' : 'EINSATZ AKTIV') : 'BEREIT';
+        $('updated').textContent = `Live · ${s.updated || '–'}`;
+        $('number').textContent = s.number ? `EINSATZ ${s.number}` : 'EINSATZ';
+        $('title').textContent = s.active ? (s.title || 'Ohne Stichwort') : 'Bereit';
+        $('alarmTime').textContent = s.alarmTime ? new Date(s.alarmTime * 1000).toLocaleString('de-DE') : '–';
+        $('address').textContent = s.address || '–';
+        $('message').textContent = s.text || '–';
+        const lat = Number(s.latitude), lng = Number(s.longitude);
+        const hasCoords = Math.abs(lat) > .000001 && Math.abs(lng) > .000001;
+        $('coords').textContent = hasCoords ? `${lat.toFixed(5)}, ${lng.toFixed(5)}` : '–';
+        const showMap = !!s.active && !!s.map;
+        $('mapImage').hidden = !showMap;
+        $('standby').hidden = showMap;
+        if (showMap && $('mapImage').src !== s.map) $('mapImage').src = s.map;
+        $('offline').hidden = !!s.valid;
+        $('offline').textContent = s.error || 'DIVERA-Daten momentan nicht verfügbar';
+    }
+    function handleMessage(data) { render(typeof data === 'string' ? JSON.parse(data) : data); }
+    render(__INITIAL_STATE__);
+</script>
+</body>
+</html>
