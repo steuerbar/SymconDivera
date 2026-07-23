@@ -27,9 +27,15 @@
         .map { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--accent) 8%, Canvas); }
         .map img { width: 100%; height: 100%; object-fit: cover; }
         .standby { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--alarm) 12%, transparent), transparent 54%); }
-        .fire-engine { width: min(90%, 270px); height: auto; overflow: visible; filter: drop-shadow(0 9px 12px color-mix(in srgb, CanvasText 24%, transparent)); }
+        .fire-engine { display: none; }
         .beacon { transform-origin: center; animation: beacon 1.35s ease-in-out infinite; }
         .beacon-glow { transform-origin: center; animation: glow 1.35s ease-in-out infinite; }
+        .divera-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(88%, 310px); color: CanvasText; }
+        .divera-logo { display: flex; align-items: center; justify-content: center; gap: 13px; width: 100%; }
+        .divera-symbol { width: 78px; height: auto; overflow: visible; filter: drop-shadow(0 5px 10px color-mix(in srgb, #fa0019 24%, transparent)); }
+        .divera-name { font-size: clamp(1.25rem, 4.1vw, 2rem); font-weight: 760; line-height: 1; letter-spacing: -.045em; white-space: nowrap; }
+        .divera-name b { color: #fa0019; font-weight: 840; }
+        .divera-subtitle { padding-top: 8px; border-top: 1px solid var(--line); color: color-mix(in srgb, CanvasText 56%, transparent); font-size: .56rem; font-weight: 750; letter-spacing: .18em; }
         .standby span { position: absolute; bottom: 10px; padding: 5px 9px; border: 1px solid color-mix(in srgb, var(--alarm) 40%, transparent); border-radius: 8px; background: color-mix(in srgb, Canvas 88%, transparent); color: color-mix(in srgb, var(--alarm) 78%, CanvasText); }
         @keyframes beacon { 0%, 44%, 100% { opacity: .38; } 50%, 82% { opacity: 1; } }
         @keyframes glow { 0%, 44%, 100% { opacity: 0; transform: scale(.7); } 50%, 82% { opacity: .5; transform: scale(1.12); } }
@@ -57,6 +63,15 @@
         <div class="map">
             <img id="mapImage" alt="Karte des Einsatzortes" hidden>
             <div class="standby" id="standby">
+                <div class="divera-brand" aria-label="DIVERA 24/7">
+                    <div class="divera-logo">
+                        <svg class="divera-symbol" viewBox="0 0 126 62" aria-hidden="true">
+                            <path d="M29.5 5C15.9 5 5 16 5 30.5S15.9 56 29.5 56c8.3 0 15.1-3.7 20.3-10.4L76.4 10.8C81.4 4.4 88.4 1 96.5 1 112.3 1 125 14.2 125 30.5S112.3 60 96.5 60c-9.2 0-17.2-4.1-22.8-11.3l-8.1-10.9 6.7-8.8 8.3 11.2c3.9 5 9.2 7.8 15.9 7.8 9.5 0 17.3-7.8 17.3-17.5S106 13 96.5 13c-5 0-9.3 2-12.7 5.8L57.1 53.7C50 62.4 40.8 67 29.5 67 13.2 67 0 50.7 0 30.5S13.2-6 29.5-6c10.2 0 18.8 4.7 24.8 12.3l6.2 8.4-6.8 8.9-6.3-8.6C43 8.5 37 5 29.5 5z" fill="#fa0019" transform="translate(0 1) scale(.94 .88)"/>
+                        </svg>
+                        <div class="divera-name">DIVERA <b>24/7</b></div>
+                    </div>
+                    <div class="divera-subtitle">ALARM &amp; EINSATZMONITORING</div>
+                </div>
                 <svg class="fire-engine" viewBox="0 0 420 190" role="img" aria-label="Einsatzbereites Hilfeleistungslöschfahrzeug">
                     <defs>
                         <linearGradient id="body-red" x1="0" y1="0" x2="0" y2="1">
