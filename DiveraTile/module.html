@@ -30,12 +30,12 @@
         .fire-engine { display: none; }
         .beacon { transform-origin: center; animation: beacon 1.35s ease-in-out infinite; }
         .beacon-glow { transform-origin: center; animation: glow 1.35s ease-in-out infinite; }
-        .divera-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(88%, 310px); color: CanvasText; }
+        .divera-brand { display: flex; flex-direction: column; align-items: center; gap: 7px; width: min(72%, 240px); color: CanvasText; }
         .divera-logo { display: flex; align-items: center; justify-content: center; gap: 13px; width: 100%; }
-        .divera-symbol { width: 78px; height: auto; overflow: visible; filter: drop-shadow(0 5px 10px color-mix(in srgb, #fa0019 24%, transparent)); }
-        .divera-name { font-size: clamp(1.25rem, 4.1vw, 2rem); font-weight: 760; line-height: 1; letter-spacing: -.045em; white-space: nowrap; }
+        .divera-symbol { width: 56px; height: auto; overflow: visible; filter: drop-shadow(0 4px 8px color-mix(in srgb, #fa0019 22%, transparent)); }
+        .divera-name { font-size: clamp(1rem, 3.2vw, 1.45rem); font-weight: 760; line-height: 1; letter-spacing: -.045em; white-space: nowrap; }
         .divera-name b { color: #fa0019; font-weight: 840; }
-        .divera-subtitle { padding-top: 8px; border-top: 1px solid var(--line); color: color-mix(in srgb, CanvasText 56%, transparent); font-size: .56rem; font-weight: 750; letter-spacing: .18em; }
+        .divera-subtitle { padding-top: 6px; border-top: 1px solid var(--line); color: color-mix(in srgb, CanvasText 56%, transparent); font-size: .48rem; font-weight: 750; letter-spacing: .15em; }
         .standby span { position: absolute; bottom: 10px; padding: 5px 9px; border: 1px solid color-mix(in srgb, var(--alarm) 40%, transparent); border-radius: 8px; background: color-mix(in srgb, Canvas 88%, transparent); color: color-mix(in srgb, var(--alarm) 78%, CanvasText); }
         @keyframes beacon { 0%, 44%, 100% { opacity: .38; } 50%, 82% { opacity: 1; } }
         @keyframes glow { 0%, 44%, 100% { opacity: 0; transform: scale(.7); } 50%, 82% { opacity: .5; transform: scale(1.12); } }
@@ -57,7 +57,7 @@
     <div class="symcon-title-space" aria-hidden="true"></div>
     <header>
         <span class="live"><i class="dot"></i><span id="updated">Live</span></span>
-        <span class="badge" id="badge">BEREIT</span>
+        <span class="badge" id="badge" hidden></span>
     </header>
     <div class="content">
         <div class="map">
@@ -138,6 +138,7 @@
     const $ = id => document.getElementById(id);
     function render(s) {
         $('card').classList.toggle('active', !!s.active);
+        $('badge').hidden = !s.active;
         $('badge').textContent = s.active ? (s.priority ? 'EINSATZ · PRIORITÄT' : 'EINSATZ AKTIV') : 'BEREIT';
         $('updated').textContent = `Live · ${s.updated || '–'}`;
         $('number').textContent = s.number ? `EINSATZ ${s.number}` : 'EINSATZ';
