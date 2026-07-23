@@ -20,6 +20,8 @@ Anschließend:
 3. Abrufintervall auswählen und Änderungen übernehmen.
 4. Die Instanz in einer Kachelvisualisierung sichtbar machen.
 
+Für die vollständige Darstellung wird eine Kachelgröße von mindestens 3 × 3 Feldern empfohlen.
+
 ## Veröffentlichung
 
 Veröffentlichungskontakt für das geplante GitHub-Repository:
