@@ -45,6 +45,8 @@ Der Accesskey wird als geschützte Instanzeigenschaft in IP-Symcon gespeichert u
 
 Bei aktivierter Karte werden Kartenkacheln anhand der Einsatzkoordinaten von `tile.openstreetmap.org` geladen. Fehlen Koordinaten, wird die von DIVERA gelieferte Einsatzadresse zur Geokodierung an Nominatim übertragen.
 
+Dieses Projekt ist eine inoffizielle Integration und steht in keiner geschäftlichen Verbindung zur DIVERA GmbH. DIVERA 24/7 und die zugehörigen Kennzeichen sind Marken ihrer jeweiligen Rechteinhaber.
+
 ## Lizenz
 
 MIT
