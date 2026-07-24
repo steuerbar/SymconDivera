@@ -1,12 +1,12 @@
 {
   "id": "{68437E70-052B-462D-9419-FC8CA5F51290}",
-  "author": "schl",
+  "author": "steuerbar",
   "name": "DIVERA Symcon",
   "url": "https://github.com/steuerbar/SymconDivera",
   "compatibility": {
     "version": "7.1"
   },
-  "version": "2.7",
-  "build": 9,
+  "version": "2.8",
+  "build": 10,
   "date": 1784764800
 }
