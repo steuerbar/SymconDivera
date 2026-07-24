@@ -2,9 +2,9 @@
   "id": "{C77FC8D9-C094-4E20-983D-D187758B758E}",
   "name": "DIVERA Einsatzkachel",
   "type": 3,
-  "vendor": "DIVERA 24/7",
+  "vendor": "steuerbar",
   "aliases": [
-    "DIVERA Kachel"
+    "DIVERA"
   ],
   "parentRequirements": [],
   "childRequirements": [],
